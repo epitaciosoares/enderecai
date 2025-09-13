@@ -53,7 +53,7 @@ class Home extends StatelessWidget {
                         decoration: InputDecoration(
                           hintText: 'Digite o CEP',
                           filled: true,
-                          fillColor: colorScheme.background,
+                          fillColor: theme.cardColor,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(16),
                             borderSide: BorderSide.none,
