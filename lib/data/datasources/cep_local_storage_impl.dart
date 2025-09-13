@@ -9,12 +9,16 @@ class CepLocalStorageImpl extends CepLocalStorage {
 
   @override
   Future<CepModel?> getAddressFromCep(String cep) async {
-    final cepModel = await _database.find<CepModel>(cep);
+    try {
+      final cepModel = await _database.find<CepModel>(cep);
 
-    if (cepModel != null) {
-      return cepModel;
-    } else {
-      return null;
+      if (cepModel != null) {
+        return cepModel;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      throw Exception("Erro ao buscar o CEP: $e");
     }
   }
 

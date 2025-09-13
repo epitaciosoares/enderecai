@@ -1,6 +1,6 @@
-# enderecai
+# Endereçai
 
-A new Flutter project.
+Proejto de estudo e demontração de habilidades.
 
 ## Getting Started
 

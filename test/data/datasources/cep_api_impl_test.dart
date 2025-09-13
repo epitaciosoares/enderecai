@@ -6,8 +6,6 @@ void main() {
   test("Teste", () async {
     final api = CepApiImpl(DioHttpAdapterImpl());
 
-    final response = await api.getAddressFromCep("60530-720");
-
-    print(response);
+    await api.getAddressFromCep("60530-720");
   });
 }
