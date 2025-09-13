@@ -1,7 +1,9 @@
 import 'package:enderecai/data/models/cep_model.dart';
 import 'package:enderecai/presentation/pages/cep_details_new.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:enderecai/core/utils/cep_input_formatter.dart';
 import '../viewmodels/home_viewmodel.dart';
 
 class Home extends StatelessWidget {
@@ -67,6 +69,10 @@ class Home extends StatelessWidget {
                           child: TextField(
                             controller: vm.cepController,
                             keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                              CepInputFormatter(),
+                            ],
                             decoration: InputDecoration(
                               hintText: 'Digite o CEP',
                               filled: true,
@@ -112,15 +118,15 @@ class Home extends StatelessWidget {
                             ),
                           ),
                         ],
-                        if (vm.result != null) ...[
-                          const SizedBox(height: 16),
-                          Text(
-                            'Endereço: ${vm.result!.cep}',
-                            style: textTheme.bodyLarge?.copyWith(
-                              color: colorScheme.secondary,
-                            ),
-                          ),
-                        ],
+                        // if (vm.result != null) ...[
+                        //   const SizedBox(height: 16),
+                        //   Text(
+                        //     'Endereço: ${vm.result!.cep}',
+                        //     style: textTheme.bodyLarge?.copyWith(
+                        //       color: colorScheme.secondary,
+                        //     ),
+                        //   ),
+                        // ],
                       ],
                     ),
                   ),

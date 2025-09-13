@@ -16,7 +16,13 @@ class HomeViewModel with ChangeNotifier {
   Future<void> searchCep() async {
     final cep = cepController.text.trim();
     if (cep.isEmpty) {
-      error = 'Digite um CEP válido';
+      error = 'Digite um CEP';
+      notifyListeners();
+      return;
+    }
+    final cepRegex = RegExp(r'\d{5}-\d{3}');
+    if (!cepRegex.hasMatch(cep)) {
+      error = 'Digite um CEP válido (99999-999)';
       notifyListeners();
       return;
     }
