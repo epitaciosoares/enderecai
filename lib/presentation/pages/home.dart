@@ -1,5 +1,6 @@
 import 'package:enderecai/data/models/cep_model.dart';
 import 'package:enderecai/presentation/pages/cep_details_new.dart';
+import 'package:enderecai/presentation/viewmodels/theme_mode_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -7,9 +8,7 @@ import 'package:enderecai/core/utils/cep_input_formatter.dart';
 import '../viewmodels/home_viewmodel.dart';
 
 class Home extends StatelessWidget {
-  const Home({super.key, required this.title});
-
-  final String title;
+  const Home({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +35,19 @@ class Home extends StatelessWidget {
               }
               return Scaffold(
                 backgroundColor: colorScheme.surface,
+                appBar: AppBar(
+                  backgroundColor: colorScheme.primary,
+                  foregroundColor: colorScheme.onPrimary,
+                  actions: [
+                    IconButton(
+                      icon: const Icon(Icons.brightness_6),
+                      onPressed: () {
+                        final themeVm = context.read<ThemeModeViewmodel>();
+                        themeVm.setThemeMode();
+                      },
+                    ),
+                  ],
+                ),
                 body: Center(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 32.0),

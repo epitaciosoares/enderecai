@@ -8,8 +8,11 @@ import 'package:enderecai/data/datasources/cep_api_impl.dart';
 import 'package:enderecai/data/datasources/cep_local_storage.dart';
 import 'package:enderecai/data/datasources/cep_local_storage_impl.dart';
 import 'package:enderecai/data/repositories_impl/cep_repository_impl.dart';
+import 'package:enderecai/data/repositories_impl/theme_mode_repository_impl.dart';
 import 'package:enderecai/domain/repositories/cep_repository.dart';
+import 'package:enderecai/domain/repositories/theme_mode_repository.dart';
 import 'package:enderecai/presentation/viewmodels/home_viewmodel.dart';
+import 'package:enderecai/presentation/viewmodels/theme_mode_viewmodel.dart';
 import 'package:get_it/get_it.dart';
 import 'package:realm/realm.dart';
 
@@ -43,7 +46,15 @@ Future<void> setupInjection() async {
     ),
   );
 
+  dependencyInjector.registerLazySingleton<ThemeModeRepository>(
+    () => ThemeModeRepositoryImpl(),
+  );
+
   dependencyInjector.registerFactory<HomeViewModel>(
     () => HomeViewModel(dependencyInjector<CepRepository>()),
+  );
+
+  dependencyInjector.registerFactory<ThemeModeViewmodel>(
+    () => ThemeModeViewmodel(dependencyInjector.get<ThemeModeRepository>()),
   );
 }
