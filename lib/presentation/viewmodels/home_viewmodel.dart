@@ -3,14 +3,15 @@ import 'package:enderecai/data/models/cep_model.dart';
 import 'package:enderecai/domain/repositories/cep_repository.dart';
 
 class HomeViewModel with ChangeNotifier {
-  final CepRepository cepRepository;
+  final CepRepository _cepRepository;
 
-  HomeViewModel(this.cepRepository);
+  HomeViewModel(this._cepRepository);
 
   final TextEditingController cepController = TextEditingController();
   CepModel? result;
   String? error;
   bool isLoading = false;
+  final ValueNotifier<CepModel?> navigateToDetails = ValueNotifier(null);
 
   Future<void> searchCep() async {
     final cep = cepController.text.trim();
@@ -19,20 +20,24 @@ class HomeViewModel with ChangeNotifier {
       notifyListeners();
       return;
     }
+
     isLoading = true;
     error = null;
     notifyListeners();
-    final response = await cepRepository.getAddressFromCep(cep);
+
+    final response = await _cepRepository.getAddressFromCep(cep);
     response.fold(
       (success) {
         result = success;
         error = null;
+        navigateToDetails.value = success;
       },
       (failure) {
         result = null;
         error = 'CEP não encontrado';
       },
     );
+
     isLoading = false;
     notifyListeners();
   }
@@ -40,6 +45,7 @@ class HomeViewModel with ChangeNotifier {
   @override
   void dispose() {
     cepController.dispose();
+    navigateToDetails.dispose();
     super.dispose();
   }
 }
