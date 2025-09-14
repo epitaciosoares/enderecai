@@ -1,10 +1,12 @@
+import 'package:enderecai/domain/repositories/share_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:enderecai/data/models/cep_model.dart';
 
 class CepDetailsViewModel extends ChangeNotifier {
   final CepModel cepModel;
+  final ShareRepository _repository;
 
-  CepDetailsViewModel(this.cepModel);
+  CepDetailsViewModel(this.cepModel, this._repository);
 
   String get formattedAddress {
     final parts = <String>[];
@@ -40,13 +42,18 @@ class CepDetailsViewModel extends ChangeNotifier {
     return value?.isNotEmpty == true ? value! : 'Não informado';
   }
 
-  void share() {
-    // TODO: Implementar compartilhamento do endereço
-    // Pode ser implementado usando o package share_plus
+  void share() async {
+    await _repository.shareText(formattedAddress);
   }
 
-  void openInMaps() {
-    // TODO: Implementar abertura no maps
-    // Pode ser implementado usando url_launcher para abrir o Google Maps
+  void openInMaps() async {
+    final address = [
+      cepModel.logradouro,
+      cepModel.bairro,
+      cepModel.localidade,
+      cepModel.uf,
+      cepModel.cep,
+    ].where((e) => e != null && e.isNotEmpty).join(', ');
+    await _repository.shareToMaps(address);
   }
 }

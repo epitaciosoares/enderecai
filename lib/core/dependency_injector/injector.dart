@@ -7,9 +7,15 @@ import 'package:enderecai/data/datasources/cep_api.dart';
 import 'package:enderecai/data/datasources/cep_api_impl.dart';
 import 'package:enderecai/data/datasources/cep_local_storage.dart';
 import 'package:enderecai/data/datasources/cep_local_storage_impl.dart';
+import 'package:enderecai/data/datasources/share_adapter.dart';
+import 'package:enderecai/data/datasources/share_plus_adapter_impl.dart';
+import 'package:enderecai/data/datasources/url_laucher_adapter_impl.dart';
+import 'package:enderecai/data/datasources/url_share_adapter.dart';
 import 'package:enderecai/data/repositories_impl/cep_repository_impl.dart';
+import 'package:enderecai/data/repositories_impl/share_repository_impl.dart';
 import 'package:enderecai/data/repositories_impl/theme_mode_repository_impl.dart';
 import 'package:enderecai/domain/repositories/cep_repository.dart';
+import 'package:enderecai/domain/repositories/share_repository.dart';
 import 'package:enderecai/domain/repositories/theme_mode_repository.dart';
 import 'package:enderecai/presentation/viewmodels/home_viewmodel.dart';
 import 'package:enderecai/presentation/viewmodels/theme_mode_viewmodel.dart';
@@ -56,5 +62,20 @@ Future<void> setupInjection() async {
 
   dependencyInjector.registerFactory<ThemeModeViewmodel>(
     () => ThemeModeViewmodel(dependencyInjector.get<ThemeModeRepository>()),
+  );
+
+  dependencyInjector.registerLazySingleton<ShareAdapter>(
+    () => SharePlusAdapterImpl(),
+  );
+
+  dependencyInjector.registerLazySingleton<UrlShareAdapter>(
+    () => UrlLaucherAdapterImpl(),
+  );
+
+  dependencyInjector.registerLazySingleton<ShareRepository>(
+    () => ShareRepositoryImpl(
+      dependencyInjector<ShareAdapter>(),
+      dependencyInjector<UrlShareAdapter>(),
+    ),
   );
 }

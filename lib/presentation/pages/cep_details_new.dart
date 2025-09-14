@@ -1,3 +1,5 @@
+import 'package:enderecai/core/dependency_injector/injector.dart';
+import 'package:enderecai/domain/repositories/share_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:enderecai/data/models/cep_model.dart';
 import 'package:enderecai/presentation/viewmodels/cep_details_viewmodel.dart';
@@ -11,7 +13,10 @@ class CepDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => CepDetailsViewModel(cepModel),
+      create: (_) => CepDetailsViewModel(
+        cepModel,
+        dependencyInjector.get<ShareRepository>(),
+      ),
       child: const _CepDetailsView(),
     );
   }
